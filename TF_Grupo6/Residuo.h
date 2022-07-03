@@ -8,7 +8,6 @@ private:
 	bool visible;
 	int x, y;
 	int width, height;
-	//prueba
 	int tipo;
 public:
 	Residuo(int x,int y, int width, int height,int tipo){

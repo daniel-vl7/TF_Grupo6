@@ -120,31 +120,51 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Creditos.cpp" />
     <ClCompile Include="FrmMain.cpp" />
+    <ClCompile Include="Instrucciones.cpp" />
     <ClCompile Include="Nivel2.cpp" />
+    <ClCompile Include="Presentacion.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agente.h" />
     <ClInclude Include="Aliado.h" />
     <ClInclude Include="Bala.h" />
     <ClInclude Include="Controlador.h" />
+    <ClInclude Include="Creditos.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="FrmMain.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Instrucciones.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Nivel2.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Personaje.h" />
+    <ClInclude Include="Presentacion.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Residuo.h" />
     <ClInclude Include="Sujeto.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Creditos.resx">
+      <DependentUpon>Creditos.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Instrucciones.resx">
+      <DependentUpon>Instrucciones.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Nivel2.resx">
       <DependentUpon>Nivel2.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Presentacion.resx">
+      <DependentUpon>Presentacion.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

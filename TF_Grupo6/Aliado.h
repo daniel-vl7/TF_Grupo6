@@ -16,7 +16,7 @@ public:
 		this->width = width;
 		this->height = height;
 		x = 30;
-		dx = dy = 4;
+		dx = dy = 6;
 		direction = 1;
 		idx = idy = 0;
 	}
@@ -40,5 +40,10 @@ public:
 		else idx = 0;
 
 		if (idx >9) idx = 0;
+	}
+
+	int getX() { return x; }
+	Rectangle getRectangle() {
+		return Rectangle(x, y, width, height);
 	}
 };

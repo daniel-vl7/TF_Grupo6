@@ -35,18 +35,15 @@ public:
 	}
 
 	virtual void mover(){}
+
 	bool getVisible() { return visible; }
 	void setVisible(bool value) { visible = value; }
 
 	int getX() { return x; }
 	int getY() { return y; }
-	int getDirection() { return direction; }
 
-	void setX(int value) { x = value; }
-	void setY(int value) { y = value; }
-	void setDxy(int value) { dx = value; dy = value; }
 
 	Rectangle getRectangle() {
-		return Rectangle(x, y, width, height);
+		return Rectangle(x, y, width*0.9, height*0.9);
 	}
 };

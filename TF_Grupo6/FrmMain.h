@@ -1,9 +1,7 @@
-#pragma once
+ï»¿#pragma once
 #include "Controlador.h"
-#include "Enemigo.h" //NO PERTENCE A NIVEL 1 (SOLO PRUEBA)
-#include "Bala.h"
-#include <string>
 #include "Nivel2.h"
+#include <string>
 using namespace std;
 
 namespace TFGrupo6 {
@@ -33,25 +31,21 @@ namespace TFGrupo6 {
 			bmpMapa = gcnew Bitmap("City1.png");
 			bmpResiduo = gcnew Bitmap("lata1.png");
 			bmpAliado = gcnew Bitmap("aliado.png");
-			//LEVEL 2
-			bmpEnemigo = gcnew Bitmap("enemigoSpray.png");
-			bmpBala = gcnew Bitmap("bala.png");
-			bmpMapa2 = gcnew Bitmap("City2.png");
 
-			personaje = new Personaje(30, 400, 10, 10, bmpPersonaje->Width / 4, bmpPersonaje->Height / 4, 0);
+			personaje = new Personaje(30, 400, 7, 7, bmpPersonaje->Width / 4, bmpPersonaje->Height / 4, 0);
 			aliado = new Aliado(personaje->getY(), bmpAliado->Width / 10, bmpAliado->Height / 1);
 			control = new Controlador();
-			//lvl 2
-			enemigo = new Enemigo(700, 260, 10, 10, bmpEnemigo->Width/4, bmpEnemigo->Height, 0);
-			//bala = new Bala(700, 260, bmpBala->Width / 2, bmpBala->Height);
-			control->crearResiduos(buffer->Graphics);
-			//probar
 			
+			//lvl 2
+			nivel2 = gcnew Nivel2();
+			
+			control->crearResiduos(buffer->Graphics);
+	
 		}
 
 	protected:
 		/// <summary>
-		/// Limpiar los recursos que se estén usando.
+		/// Limpiar los recursos que se estÃ©n usando.
 		/// </summary>
 		~FrmMain()
 		{
@@ -77,20 +71,20 @@ namespace TFGrupo6 {
 		Bitmap^ bmpPersonaje;
 		Bitmap^ bmpResiduo;
 		Bitmap^ bmpAliado;
-		Bitmap^ bmpEnemigo;
-		Bitmap^ bmpBala;
 
 		Aliado* aliado;
-		Enemigo* enemigo;//levl 2
-		//Bala* bala;//level 2
-
-		Bitmap^ bmpMapa2;
-
+	
 		Personaje* personaje;
 		Controlador* control;
 		
+		Nivel2^ nivel2;
 		
 	private: System::Windows::Forms::Label^ lblContador;
+	private: System::Windows::Forms::Button^ btnContinuar;
+	private: System::Windows::Forms::Label^ lblIndicacion;
+	private: System::Windows::Forms::Label^ lblArmadura;
+
+
 	private: System::Windows::Forms::Label^ lblTexto;
 
 
@@ -98,14 +92,17 @@ namespace TFGrupo6 {
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Método necesario para admitir el Diseñador. No se puede modificar
-		/// el contenido de este método con el editor de código.
+		/// MÃ©todo necesario para admitir el DiseÃ±ador. No se puede modificar
+		/// el contenido de este mÃ©todo con el editor de cÃ³digo.
 		/// </summary>
 		void InitializeComponent(void)
 		{
 			this->components = (gcnew System::ComponentModel::Container());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->pnlCanvas = (gcnew System::Windows::Forms::Panel());
+			this->lblArmadura = (gcnew System::Windows::Forms::Label());
+			this->lblIndicacion = (gcnew System::Windows::Forms::Label());
+			this->btnContinuar = (gcnew System::Windows::Forms::Button());
 			this->lblTexto = (gcnew System::Windows::Forms::Label());
 			this->lblContador = (gcnew System::Windows::Forms::Label());
 			this->pnlCanvas->SuspendLayout();
@@ -118,12 +115,57 @@ namespace TFGrupo6 {
 			// 
 			// pnlCanvas
 			// 
+			this->pnlCanvas->Controls->Add(this->lblArmadura);
+			this->pnlCanvas->Controls->Add(this->lblIndicacion);
+			this->pnlCanvas->Controls->Add(this->btnContinuar);
 			this->pnlCanvas->Controls->Add(this->lblTexto);
 			this->pnlCanvas->Controls->Add(this->lblContador);
 			this->pnlCanvas->Location = System::Drawing::Point(1, -1);
 			this->pnlCanvas->Name = L"pnlCanvas";
 			this->pnlCanvas->Size = System::Drawing::Size(1280, 720);
 			this->pnlCanvas->TabIndex = 0;
+			// 
+			// lblArmadura
+			// 
+			this->lblArmadura->AutoSize = true;
+			this->lblArmadura->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(192)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)));
+			this->lblArmadura->Font = (gcnew System::Drawing::Font(L"Tahoma", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lblArmadura->Location = System::Drawing::Point(709, 668);
+			this->lblArmadura->Name = L"lblArmadura";
+			this->lblArmadura->Size = System::Drawing::Size(326, 22);
+			this->lblArmadura->TabIndex = 5;
+			this->lblArmadura->Text = L"El aliado ha entregado la armadura";
+			this->lblArmadura->Visible = false;
+			// 
+			// lblIndicacion
+			// 
+			this->lblIndicacion->AutoSize = true;
+			this->lblIndicacion->BackColor = System::Drawing::SystemColors::ActiveBorder;
+			this->lblIndicacion->Font = (gcnew System::Drawing::Font(L"Tahoma", 8, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->lblIndicacion->Location = System::Drawing::Point(1065, 588);
+			this->lblIndicacion->Name = L"lblIndicacion";
+			this->lblIndicacion->Size = System::Drawing::Size(117, 19);
+			this->lblIndicacion->TabIndex = 4;
+			this->lblIndicacion->Text = L"Espera aquÃ­ â†“";
+			this->lblIndicacion->Visible = false;
+			// 
+			// btnContinuar
+			// 
+			this->btnContinuar->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+				static_cast<System::Int32>(static_cast<System::Byte>(128)));
+			this->btnContinuar->Font = (gcnew System::Drawing::Font(L"Montserrat", 22, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->btnContinuar->Location = System::Drawing::Point(391, 338);
+			this->btnContinuar->Name = L"btnContinuar";
+			this->btnContinuar->Size = System::Drawing::Size(486, 209);
+			this->btnContinuar->TabIndex = 3;
+			this->btnContinuar->Text = L"Continuar";
+			this->btnContinuar->UseVisualStyleBackColor = false;
+			this->btnContinuar->Visible = false;
+			this->btnContinuar->Click += gcnew System::EventHandler(this, &FrmMain::btnContinuar_Click);
 			// 
 			// lblTexto
 			// 
@@ -166,37 +208,32 @@ namespace TFGrupo6 {
 		}
 #pragma endregion
 	private: System::Void timer1_Tick(System::Object^ sender, System::EventArgs^ e) {
-		//clear
+		
 		buffer->Graphics->Clear(Color::WhiteSmoke);
 		//collision
 		control->colisionResiduo(personaje);
 		//move 
-		//LEVEL 2
-		enemigo->mover(buffer->Graphics);
-		/*bala->mover();*/
-		//control->moverTodo(buffer->Graphics);
-		control->finalizaNivel1(buffer->Graphics,aliado,personaje);
+		
+		control->aparicionAliado(buffer->Graphics,aliado,personaje);
 		//draw
 		buffer->Graphics->DrawImage(bmpMapa, 0, 0, bmpMapa->Width * 1.0, bmpMapa->Height * 0.75);
 
 		personaje->dibujar(buffer->Graphics, bmpPersonaje);
-		//LEVEL 2
-		enemigo->dibujar(buffer->Graphics, bmpEnemigo);
-		/*bala->dibujar(buffer->Graphics, bmpBala);*/
+		
+		
 
 		if (control->getctdResiduos() == 0) {
-			//->dibujar(buffer->Graphics, bmpAliado);
-			Nivel2^ nivel2 = gcnew Nivel2();
-			nivel2->Show();
-			this->timer1->Enabled = false;
-			
+			aliado->dibujar(buffer->Graphics, bmpAliado);	
+			lblIndicacion->Visible = true;
+		}
+
+		if (aliado->getX() >=700) {
+			btnContinuar->Visible = true;	
+			lblArmadura->Visible = true;
 		}
 
 		control->dibujarTodo(buffer->Graphics, bmpResiduo);
-
 		lblContador->Text = Convert::ToString(control->getContadorResiduos());
-
-		//render
 		buffer->Render(g);
 	}
 
@@ -216,10 +253,13 @@ namespace TFGrupo6 {
 		case Keys::S:
 			personaje->mover(buffer->Graphics, 'S');
 			break;
-		/*case Keys::Enter:
-			Bala* bala = new Bala(700, 260, bmpBala->Width / 2, bmpBala->Height);
-			break;*/
+		
 		}
+	}
+	
+	private: System::Void btnContinuar_Click(System::Object^ sender, System::EventArgs^ e) {
+		
+		nivel2->Show();	
 	}
 };
 }

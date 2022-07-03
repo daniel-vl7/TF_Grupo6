@@ -1,21 +1,17 @@
 #pragma once
 #include "Sujeto.h"
-
+//clase hija de Sujeto
 class Personaje : public Sujeto {
 private:
-	int vidas;
 public:
 	Personaje(int x, int y, int dx, int dy, int width, int height, int direction) :
-	Sujeto(x, y, dx, dy, width, height, direction) {
-
-		vidas = 5;
-	}
+	Sujeto(x, y, dx, dy, width, height, direction) {}
 	~Personaje(){}
 
 	void mover(Graphics^ g, char i) {
 		switch (i)
 		{
-		//w = 2, s = 3, a = 1, d = 4;
+		
 		case 'A':
 			if (x > 0) {
 				x -= dx;

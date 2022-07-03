@@ -1,9 +1,9 @@
 #pragma once
 #include "Sujeto.h"
 #include "Personaje.h"
-#include "Agente.h"
 #include "Residuo.h"
 #include "Aliado.h"
+#include "Bala.h"
 #include <vector>
 
 using namespace std;
@@ -12,17 +12,33 @@ class Controlador {
 private:
 	
 	int ctdResiduos;
-	vector<Residuo*> residuos;
+	int ctdBalas;
 	int contResiduos;
+	vector<Residuo*> residuos;
+	vector<Bala*> balas;
+	int vidas;
+	int escudo;
 
 public:
 
 	Controlador(){
-		ctdResiduos = 10;
+		ctdResiduos = 13;
+		ctdBalas = 10;
 		contResiduos = 0;
+		vidas = 3;
+		escudo = 6;
 		
+		for (int i = 0; i < ctdBalas; i++){
+			Bala* b = new Bala(1, 1, 1, 1);
+			balas.push_back(b);
+		}
 	}
 	~Controlador(){}
+
+	
+	void agregarBala(Bala* bala) {
+		balas.push_back(bala);
+	}
 
 	void crearResiduos(Graphics^ g){
 
@@ -52,7 +68,7 @@ public:
 			}
 
 			Residuo* r;
-			r = new Residuo(50 + rand() % 600, 300 + rand() % 135, bmpResiduo->Width, bmpResiduo->Height, tipo);
+			r = new Residuo(70 + rand() % 600, 300 + rand() % 135, bmpResiduo->Width, bmpResiduo->Height, tipo);
 			residuos.push_back(r);
 
 			_sleep(10);
@@ -60,8 +76,14 @@ public:
 			
 	}
 
+	void moverBalas() {
+		for (int i = 0; i < balas.size(); i++){
+			balas[i]->mover();
+		}
+	}
+
 	void dibujarTodo(Graphics^g, Bitmap^ bmpResiduo) {
-		//bmpResiduo por defecto = "lata1.png"
+		
 		for (int i = 0; i < residuos.size(); i++){
 			
 			switch (residuos[i]->getTipo())
@@ -82,9 +104,13 @@ public:
 			residuos[i]->dibujar(g,bmpResiduo);
 		}
 	}
-
-
-	//instanciar en main? 
+	void dibujarBalas(Graphics^ g, Bitmap^ bmpBala) {
+		for (int i = 0; i < balas.size(); i++){
+			if (balas[i]->getX() > 10) {
+				balas[i]->dibujar(g, bmpBala);
+			}
+		}
+	}
 
 	void colisionResiduo(Personaje* heroe) {
 		if (residuos.size() >= 1)
@@ -109,12 +135,35 @@ public:
 		}
 	}
 	
-	void finalizaNivel1(Graphics^g, Aliado* aliado, Personaje* heroe) {
-		if (ctdResiduos == 0) {
-			aliado->mover(g, heroe->getX());
+	void colisionBala(Personaje* personaje){
+		for (int i = 0; i < balas.size(); i++){
+			if (balas[i]->getX() <= 0) {
+				balas[i]->setVisible(false);
+			}
+		}
+		for (int i = 0; i < balas.size(); i++){
+			if(personaje->getRectangle().IntersectsWith(balas[i]->getRectangle())) {
+				balas[i]->setVisible(false);
+				escudo--;
+				if (escudo <= 0) vidas--;
+			}
+		}
+		for (int i = 0; i < balas.size(); i++) {
+
+			if (balas[i]->getVisible()==false) {
+				balas.erase(balas.begin() + i);
+			}
 		}
 	}
 
+	void aparicionAliado(Graphics^g, Aliado* aliado, Personaje* personaje) {
+		if (ctdResiduos == 0) {
+			aliado->mover(g, personaje->getX());
+		}
+	}
+
+	int getEscudo() { return escudo; }
+	int getVidas() { return vidas; }
 	int getctdResiduos() { return ctdResiduos; }
 	int getContadorResiduos() { return contResiduos; }
 };
